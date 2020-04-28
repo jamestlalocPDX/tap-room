@@ -108,9 +108,13 @@ class KegControl extends React.Component {
   }
 
   handleFillingKeg = (id) => {
-    const newMasterMenu = this.state.masterMenu[0].pints + 1;
+    const kegToFill = this.state.masterMenu.filter(keg => keg.id === id)[0];
+    const fillingKeg = kegToFill.pints + 1;
+    const filledKeg = {...kegToFill, pints: fillingKeg};
+    const kegMenu = this.state.masterMenu.filter(keg => keg.id != id);
     this.setState({
-      masterMenu: newMasterMenu,
+      masterMenu: [...kegMenu, filledKeg],
+      selectedKeg: filledKeg
     });
   }
   
@@ -141,7 +145,7 @@ class KegControl extends React.Component {
         currentlyVisibleState = <KegDetail 
         keg = {this.state.selectedKeg}
         onClickingTap = {this.handleTappingKeg}
-        // onClickingFill = {this.handleFillingKeg} 
+        onClickingFill = {this.handleFillingKeg} 
         onClickingDelete = {this.handleDeletingKeg}
         onClickingEdit = {this.handleEditClick} />;
         buttonText = "Return to Menu";
